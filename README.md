@@ -22,7 +22,7 @@ Versión **v0.1.0**, primera versión pública. Descarga el juego desde [Release
 
 ### Windows de 64 bits
 
-1. Descarga el paquete **Windows x64 (.zip)**.
+1. [Descarga el paquete Windows x64 (.zip)](https://github.com/javieratomic/medianoche/releases/download/v0.1.0/MEDIANOCHE-0.1.0-Windows-x64.zip).
 2. Extrae **todos** los archivos a una carpeta.
 3. Ejecuta `MEDIANOCHE.exe` desde esa carpeta.
 
@@ -32,7 +32,7 @@ Windows SmartScreen puede mostrar un aviso si no reconoce el ejecutable. Comprue
 
 El paquete Linux x64 está preparado para SteamOS. Incluye un runtime de **LÖVE 11.5** y no depende de Flatpak ni requiere instalar LÖVE por separado.
 
-1. Entra en **Modo Escritorio (Desktop Mode)** y descarga el paquete **Linux x64 (.tar.gz)**.
+1. Entra en **Modo Escritorio (Desktop Mode)** y [descarga el paquete SteamOS / Linux x64 (.tar.gz)](https://github.com/javieratomic/medianoche/releases/download/v0.1.0/MEDIANOCHE-0.1.0-SteamOS-x64.tar.gz).
 2. Extráelo en una carpeta, que puede ser temporal, y **cierra Steam por completo** antes de instalar.
 3. Abre `Install-MEDIANOCHE.desktop` o ejecuta `./install.sh` en una terminal desde la carpeta extraída.
 4. El instalador copia el juego a `~/Games/MEDIANOCHE` y lo añade a Steam como juego externo. Instala automáticamente la cabecera (hero), el logo, las cápsulas horizontal y vertical y el icono de biblioteca.

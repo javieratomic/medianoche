@@ -8,7 +8,7 @@ MEDIANOCHE utiliza [LÖVE](https://love2d.org/), desarrollado por LOVE Developme
 
 El archivo completo `license.txt` del runtime se conserva en la distribución como [licenses/LOVE-license.txt](licenses/LOVE-license.txt), junto con los demás avisos que acompañen a sus binarios. La relación y los términos de referencia están en el [archivo oficial de LÖVE 11.5](https://github.com/love2d/love/blob/11.5/license.txt); prevalecen los textos correspondientes al runtime efectivamente incluido.
 
-Las bibliotecas integradas en el runtime no se convierten en software propietario por acompañar a MEDIANOCHE. Este documento no certifica por sí solo el cumplimiento de todas las obligaciones de cada binario distribuido.
+Las bibliotecas mantienen sus licencias originales. Sus fuentes y recetas de compilación se distribuyen en `THIRD-PARTY-SOURCES-0.1.0.tar.gz`, junto a los paquetes del juego en la [misma release](https://github.com/javieratomic/medianoche/releases/tag/v0.1.0). Consulta el [inventario de fuentes del motor](licenses/RUNTIME-SOURCES.md). El paquete Linux incluye además el texto original de su runtime como `licenses/LOVE-Linux-license.txt`.
 
 ## Libre Baskerville
 
