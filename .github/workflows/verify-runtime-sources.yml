@@ -1,0 +1,18 @@
+name: Verify runtime source correspondence
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mpg123:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Check official runtime and pinned library source
+        run: |
+          curl -fL https://github.com/love2d/love/releases/download/11.5/love-11.5-x86_64.AppImage -o love.AppImage
+          echo '65a673406431eff7167a15a032bf7a2e4ba50108e091eb7b176465831f9b5e00  love.AppImage' | sha256sum -c -
+          chmod +x love.AppImage
+          ./love.AppImage --appimage-extract >/dev/null
+          timeout 300 bash tools/verify-linux-mpg123.sh "$PWD/squashfs-root/lib/libmpg123.so.0"
