@@ -16,6 +16,7 @@ permissions:
 jobs:
   linux:
     runs-on: ubuntu-22.04
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Download and verify artifacts
@@ -44,7 +45,9 @@ jobs:
   windows:
     if: ${{ !inputs.linux_only }}
     runs-on: windows-2022
+    timeout-minutes: 6
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Download packages
         env:
           GH_TOKEN: ${{ github.token }}
@@ -53,18 +56,12 @@ jobs:
         shell: pwsh
         run: |
           gh release download $env:RELEASE_TAG --pattern '*Windows-x64.zip' --dir artifacts
-          Expand-Archive artifacts/*Windows-x64.zip artifacts/game
-          Invoke-WebRequest https://github.com/love2d/love/releases/download/11.5/love-11.5-win64.zip -OutFile love.zip
-          $hash = (Get-FileHash love.zip).Hash.ToLower()
-          if ($hash -ne 'ba6e56be2685e53c817749c4a5007f51137136fe5a3ab64920508babc2e74369') { throw 'Runtime checksum mismatch' }
-          Expand-Archive love.zip runtime
-      - name: Run packaged game checks
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Check Windows package and installer
         shell: pwsh
         run: |
-          $game = (Resolve-Path artifacts/game/MEDIANOCHE-Windows-x64/MEDIANOCHE.exe).Path
-          & runtime/love-11.5-win64/lovec.exe $game smoke
+          $package = (Get-ChildItem artifacts/*Windows-x64.zip).FullName
+          python tests/verify_windows_package.py $package
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          & runtime/love-11.5-win64/lovec.exe $game test
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          & runtime/love-11.5-win64/lovec.exe $game render
+          python -m unittest discover -s tests -p test_steam_installer.py -v
           exit $LASTEXITCODE
