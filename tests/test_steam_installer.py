@@ -152,6 +152,46 @@ class InstallerTests(unittest.TestCase):
                 self.run_install()
         self.assertEqual(self.shortcuts.read_bytes(), before)
         self.assertEqual(list((self.config / "grid").glob("*.png")), [])
+        self.assertFalse((self.home / "Games/MEDIANOCHE").exists())
+        self.run_install()
+        self.assertEqual(self.data()["1"]["appname"], "MEDIANOCHE")
+        self.assertEqual((self.home / "Games/MEDIANOCHE/game.love").read_bytes(), b"game fixture")
+
+    def test_failed_install_keeps_preexisting_and_nonempty_created_directories(self):
+        games = self.home / "Games"
+        games.mkdir()
+        original = installer.SafeDir.replace
+        unrelated = games / "MEDIANOCHE/artwork/unrelated.txt"
+
+        def fail_with_unrelated_file(directory, name, data, mode=0o644):
+            if name.endswith("_logo.png"):
+                unrelated.write_bytes(b"not ours")
+                raise OSError("injected disk failure")
+            return original(directory, name, data, mode)
+
+        with mock.patch.object(installer.SafeDir, "replace", fail_with_unrelated_file):
+            with self.assertRaises(installer.InstallError):
+                self.run_install()
+        self.assertTrue(games.is_dir())
+        self.assertEqual(unrelated.read_bytes(), b"not ours")
+        with self.assertRaises(installer.InstallError):
+            self.run_install()
+        self.assertEqual(unrelated.read_bytes(), b"not ours")
+
+    def test_failed_install_preserves_preexisting_empty_directories(self):
+        games = self.home / "Games"
+        grid = self.config / "grid"
+        games.mkdir()
+        grid.mkdir()
+        with mock.patch.object(installer.SafeDir, "replace", side_effect=OSError("injected disk failure")):
+            with self.assertRaises(installer.InstallError):
+                self.run_install()
+        self.assertTrue(games.is_dir())
+        self.assertTrue(grid.is_dir())
+        self.assertEqual(list(games.iterdir()), [])
+        self.assertEqual(list(grid.iterdir()), [])
+        self.run_install()
+        self.assertEqual(self.data()["1"]["appname"], "MEDIANOCHE")
 
     def test_conflicting_duplicate_matches_abort(self):
         self.shortcuts.write_bytes(vdf.binary_dumps({"shortcuts": {

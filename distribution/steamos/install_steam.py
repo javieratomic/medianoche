@@ -31,21 +31,28 @@ class SafeDir:
     The Windows branch exists for offline fixture testing only; main requires Linux.
     Linux never writes via an absolute path after opening the directory.
     """
-    def __init__(self, path, create=False):
+    def __init__(self, path, create=False, created_dirs=None):
         self.path = Path(os.path.abspath(path))
         self.fd = None
         if os.name == "posix":
             fd = os.open("/", os.O_RDONLY | os.O_DIRECTORY)
             try:
+                current = Path("/")
                 for component in self.path.parts[1:]:
+                    current /= component
+                    created = False
                     if create:
                         try:
                             os.mkdir(component, 0o700, dir_fd=fd)
+                            created = True
                         except FileExistsError:
                             pass
                     child = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
                     os.close(fd)
                     fd = child
+                    if created and created_dirs is not None:
+                        info = os.fstat(fd)
+                        created_dirs.append((current, (info.st_dev, info.st_ino)))
                 self.fd = fd
             except BaseException:
                 os.close(fd)
@@ -54,10 +61,18 @@ class SafeDir:
             current = Path(self.path.anchor)
             for component in self.path.parts[1:]:
                 current /= component
+                created = False
                 if create:
-                    current.mkdir(exist_ok=True)
+                    try:
+                        current.mkdir()
+                        created = True
+                    except FileExistsError:
+                        pass
                 if current.is_symlink() or not current.is_dir():
                     raise InstallError(f"Directorio inseguro: {current}")
+                if created and created_dirs is not None:
+                    info = current.stat()
+                    created_dirs.append((current, (info.st_dev, info.st_ino)))
         self.identity = self._identity()
 
     def _identity(self):
@@ -320,9 +335,11 @@ def apply_transaction(changes, expected=None):
     transaction = uuid.uuid4().hex
     prepared = []
     applied = []
+    created_dirs = []
+    completed = False
     try:
         for path, data, mode, only_missing in changes:
-            directory = SafeDir(path.parent, create=True)
+            directory = SafeDir(path.parent, create=True, created_dirs=created_dirs)
             try:
                 old = directory.read(path.name)
             except BaseException:
@@ -344,6 +361,7 @@ def apply_transaction(changes, expected=None):
             applied.append((directory, name, data, mode, old))
             directory.replace(name, data, mode)
         assert_steam_closed()
+        completed = True
     except Exception as exc:
         failures = []
         for directory, name, data, mode, old in reversed(applied):
@@ -364,6 +382,19 @@ def apply_transaction(changes, expected=None):
     finally:
         for directory, *_ in prepared:
             directory.__exit__()
+        if not completed:
+            # Remove only directories this transaction created, deepest first.
+            # rmdir preserves any unexpected files, subdirectories or backups.
+            for path, identity in reversed(created_dirs):
+                try:
+                    with SafeDir(path.parent) as parent:
+                        parent.check()
+                        target, kwargs = parent._args(path.name)
+                        info = os.stat(target, follow_symlinks=False, **kwargs)
+                        if stat.S_ISDIR(info.st_mode) and (info.st_dev, info.st_ino) == identity:
+                            os.rmdir(target, **kwargs)
+                except (OSError, InstallError):
+                    pass
 
 
 def install(bundle, home=None, install_dir=None, steam_root=None, account=None, interactive=False):
