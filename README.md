@@ -40,13 +40,9 @@ El paquete Linux x64 está preparado para SteamOS. Incluye un runtime de **LÖVE
 
 Una vez completada la instalación, puedes borrar la carpeta temporal extraída: Steam utiliza la copia de `~/Games/MEDIANOCHE`. No borres esa carpeta de instalación. La integración con Steam corresponde a SteamOS; no implica disponibilidad en la tienda de Steam ni compatibilidad garantizada con todas las distribuciones Linux.
 
-## Repositorios
-
-El proyecto se mantiene en dos repositorios: [javieratomic/medianoche](https://github.com/javieratomic/medianoche) es el repositorio público para versiones, documentación e incidencias; `javieratomic/medianoche-source` contiene el código fuente y permanece privado. Esta separación es intencionada: el repositorio público no es una copia del código de desarrollo.
-
 ## Licencia
 
-**Gratis para jugar; no es código abierto.** El repositorio público distribuye versiones del juego; el código fuente permanece privado.
+**Gratis para jugar; no es código abierto.** Consulta las condiciones antes de distribuir o reutilizar el juego.
 
 La monetización, la modificación, la redistribución (incluso gratuita) y la reutilización del juego o de su arte requieren permiso previo por escrito. Puedes compartir el enlace oficial de descarga. Tus ajustes, partidas guardadas y configuración están permitidos.
 

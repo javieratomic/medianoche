@@ -12,7 +12,7 @@ from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
-    "steam_installer", ROOT / "distribution/steamos/install_steam.py")
+    "steam_installer", Path(os.environ.get("MEDIANOCHE_INSTALLER_ROOT", ROOT / "distribution/steamos")) / "install_steam.py")
 installer = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(installer)
 vdf = installer.vdf

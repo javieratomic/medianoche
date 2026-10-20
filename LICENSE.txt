@@ -40,8 +40,8 @@ ley, se requiere autorización previa y por escrito del titular para:
   elementos propios por separado o en otros juegos o productos.
 
 El hecho de que una descarga sea gratuita no autoriza su explotación
-comercial. No se concede acceso al repositorio privado ni una licencia
-de uso, publicación o modificación del código fuente. La presencia de
+comercial. No se concede una licencia de uso, publicación o modificación
+del código fuente. La presencia de
 código legible dentro de un paquete no amplía estos permisos.
 
 4. Solicitudes
