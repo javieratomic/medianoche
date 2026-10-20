@@ -1,0 +1,62 @@
+name: Verify release packages
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Draft release tag to validate
+        required: true
+        default: v0.1.0
+permissions:
+  contents: read
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Download and verify artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          gh release download "$RELEASE_TAG" --dir artifacts
+          cd artifacts
+          sha256sum -c SHA256SUMS.txt
+          tar -xzf MEDIANOCHE-*-SteamOS-x64.tar.gz
+      - name: Test installer in isolated homes
+        run: python3 -m unittest discover -s tests -p test_steam_installer.py -v
+      - name: Check runtime and bytecode on Linux
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb libopengl0
+          cd artifacts/MEDIANOCHE-SteamOS-x64
+          export SDL_AUDIODRIVER=dummy
+          export LIBGL_ALWAYS_SOFTWARE=1
+          xvfb-run -a ./launch.sh smoke
+          xvfb-run -a ./launch.sh test
+          xvfb-run -a ./launch.sh render
+  windows:
+    runs-on: windows-2022
+    steps:
+      - name: Download packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        shell: pwsh
+        run: |
+          gh release download $env:RELEASE_TAG --pattern '*Windows-x64.zip' --dir artifacts
+          Expand-Archive artifacts/*Windows-x64.zip artifacts/game
+          Invoke-WebRequest https://github.com/love2d/love/releases/download/11.5/love-11.5-win64.zip -OutFile love.zip
+          $hash = (Get-FileHash love.zip).Hash.ToLower()
+          if ($hash -ne 'ba6e56be2685e53c817749c4a5007f51137136fe5a3ab64920508babc2e74369') { throw 'Runtime checksum mismatch' }
+          Expand-Archive love.zip runtime
+      - name: Run packaged game checks
+        shell: pwsh
+        run: |
+          $game = (Resolve-Path artifacts/game/MEDIANOCHE-Windows-x64/MEDIANOCHE.exe).Path
+          & runtime/love-11.5-win64/lovec.exe $game smoke
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          & runtime/love-11.5-win64/lovec.exe $game test
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          & runtime/love-11.5-win64/lovec.exe $game render
+          exit $LASTEXITCODE

@@ -1,0 +1,72 @@
+MEDIANOCHE
+Licencia propietaria de uso gratuito, no comercial y sin modificaciones
+Versión 1.0 · 20 de octubre de 2026
+
+Copyright (c) 2026 javieratomic, respecto de los derechos que le correspondan.
+Todos los derechos no concedidos expresamente quedan reservados.
+
+1. Ámbito
+Esta licencia se aplica a los elementos propios de MEDIANOCHE: el juego,
+su código, ilustraciones, cartas, interfaz, audio y documentación, en la
+medida en que estén protegidos y el titular pueda licenciarlos. No es una
+licencia de código abierto ni una cesión de propiedad intelectual.
+Los componentes de terceros se rigen exclusivamente por sus propias
+licencias, conforme al apartado 5.
+
+2. Uso permitido
+Se concede un permiso gratuito, no exclusivo, para descargar las versiones
+oficiales desde https://github.com/javieratomic/medianoche/releases,
+instalarlas y jugar sin fines comerciales, manteniendo el juego sin
+modificar. Se permiten las copias locales necesarias para ese uso y las
+copias de seguridad personales, conservando los avisos de licencia.
+
+Se permite crear, conservar, copiar, restaurar y modificar las partidas
+guardadas, las preferencias y los archivos de configuración del usuario
+para su propio uso. Usar las opciones del juego o ejecutar su instalador
+oficial no constituye una modificación prohibida del juego.
+
+3. Usos que requieren permiso previo
+Salvo los derechos del apartado 5 o los que reconozca imperativamente la
+ley, se requiere autorización previa y por escrito del titular para:
+
+- Redistribuir o publicar copias del juego, incluso gratuitas e intactas,
+  crear mirrors o incluirlo en otros paquetes o catálogos descargables.
+  Compartir enlaces a las descargas oficiales sí está permitido.
+- Vender, alquilar, sublicenciar, relicenciar o monetizar el juego o sus
+  elementos, incluidos el acceso por suscripción, los paquetes de pago,
+  los paquetes financiados con publicidad y la distribución con anuncios.
+- Modificar, adaptar o crear versiones derivadas del juego.
+- Extraer, reutilizar o distribuir su código, arte, cartas, audio u otros
+  elementos propios por separado o en otros juegos o productos.
+
+El hecho de que una descarga sea gratuita no autoriza su explotación
+comercial. No se concede acceso al repositorio privado ni una licencia
+de uso, publicación o modificación del código fuente. La presencia de
+código legible dentro de un paquete no amplía estos permisos.
+
+4. Solicitudes
+Solicita autorización describiendo el uso previsto en una incidencia del
+repositorio público:
+https://github.com/javieratomic/medianoche/issues
+La ausencia de respuesta no constituye autorización.
+
+5. Terceros y derechos legales
+LÖVE, sus dependencias, Libre Baskerville y cualquier componente identificado
+con una licencia propia quedan excluidos de las restricciones de esta
+licencia. Sus licencias originales prevalecen para esos componentes y
+conservas todos los permisos que concedan, incluidos los de modificación
+o redistribución cuando procedan. Consulta THIRD_PARTY_NOTICES.md en la
+distribución y los textos originales que acompañan a cada componente.
+
+Nada de este documento limita derechos o excepciones irrenunciables
+reconocidos por la legislación aplicable, incluidos los que correspondan
+sobre interoperabilidad, estudio del programa, copias de seguridad o
+protección de consumidores. La reserva de derechos sobre MEDIANOCHE no
+atribuye al titular derechos sobre obras de terceros.
+
+6. Garantías y responsabilidad
+En la medida permitida por la ley, el juego se ofrece tal cual, sin
+garantías adicionales de funcionamiento, compatibilidad o disponibilidad.
+La responsabilidad del titular solo se excluye o limita en la medida
+legalmente admisible. No se excluyen garantías, responsabilidades ni
+remedios que la ley no permita excluir.

@@ -1,0 +1,57 @@
+MEDIANOCHE - Instalacion en SteamOS (sin sudo ni conexion a Internet)
+
+1. Cambia a Modo Escritorio y extrae TODO el archivo descargado en una carpeta.
+2. En Steam, inicia sesion una vez con tu cuenta. Despues elige Steam > Salir.
+   Espera a que Steam y steamwebhelper terminen. No basta con cerrar la ventana.
+3. Abre Install-MEDIANOCHE.desktop en la carpeta extraida. Si KDE pregunta,
+   elige ejecutar/confiar en este archivo descargado de tu publicacion oficial.
+   Alternativa en Konsole, desde esa carpeta:
+
+       sh ./install.sh
+
+4. Espera al mensaje de instalacion correcta. Abre Steam y vuelve a Modo Juego.
+   MEDIANOCHE aparecera entre los juegos ajenos a Steam, con sus ilustraciones.
+
+El juego se copia a ~/Games/MEDIANOCHE; despues puedes borrar la descarga extraida.
+No necesita tener LOVE instalado: launch.sh usa el AppImage incluido y game.love.
+No se modifican partidas, perfiles, Steam Cloud ni configuraciones del sistema.
+No se instala ninguna actualizacion automatica.
+
+Si hay varias cuentas sin una unica MostRecent, la terminal pide el AccountID
+de la lista. Solo se modifica esa cuenta. Opciones avanzadas:
+
+    sh ./install.sh --account 12345678
+    sh ./install.sh --install-dir "$HOME/Games/MEDIANOCHE-portable"
+    sh ./install.sh --steam-root "$HOME/.local/share/Steam"
+
+El destino debe estar dentro de HOME, fuera de Steam y fuera del paquete extraido.
+Se reconocen Steam nativo, sus alias habituales y Steam Flatpak.
+Si tienes varias instalaciones, elige una con --steam-root.
+Una reinstalacion actualiza el acceso existente por nombre o lanzador administrado;
+no crea duplicados y actualiza las cinco ilustraciones de MEDIANOCHE con copia
+de seguridad si cambian. No modifica ilustraciones de otros juegos.
+No se sobrescribe una carpeta de destino preexistente sin marca de MEDIANOCHE.
+
+Seguridad y recuperacion
+Los archivos sustituidos se copian primero junto al original con el sufijo
+.medianoche-backup-<identificador>. Conserva esas copias si necesitas restaurar.
+Los reemplazos son atomicos; ante un error normal se restauran los originales.
+Una interrupcion electrica no garantiza una transaccion completa entre archivos:
+con Steam cerrado, conserva las copias y vuelve a ejecutar el instalador.
+No abras Steam mientras se instala. Se vuelve a comprobar entre escrituras,
+pero Steam no respeta el bloqueo del instalador y no se le puede impedir arrancar.
+No se mata ningun proceso. No se borran accesos, arte ni otros archivos ajenos.
+Se rechazan enlaces simbolicos en el paquete y en los archivos que se modifican;
+solo los alias conocidos de Steam se resuelven al localizar su carpeta en HOME.
+
+Integracion del paquete (para quien publica)
+Copiar el contenido de distribution/steamos/ a la raiz del bundle junto a
+launch.sh, game.love, el AppImage (por ejemplo runtime/love.AppImage) y
+artwork/{library_hero.png,library_logo.png,
+library_capsule.png,library_portrait.png,icon.png}. Mantener vendor/vdf y su LICENSE.
+El tar debe dar modo 0755 a install.sh, install_steam.py, launch.sh, el AppImage
+e Install-MEDIANOCHE.desktop. No publicar fuentes del juego en este paquete.
+
+Pruebas offline desde el repositorio:
+    python3 -m unittest discover -s tests -p test_steam_installer.py -v
+En Linux se ejercitan tambien los guardas de symlinks, dir_fd y flock.
