@@ -16,6 +16,37 @@ Un roguelike de construcción de mazos entre cartas, ciegas y decisiones de ries
 
 ![Menú de MEDIANOCHE y su dirección artística](media/menu.png)
 
+## Un vistazo al arte
+
+Figuras de cuerpo completo, personajes arcanos y astros ilustrados con el lenguaje del grabado tradicional.
+
+### Figuras de la baraja española
+
+<p>
+  <img src="media/art/court_es_sota_oros.png" width="145" alt="Sota de Oros" title="Sota de Oros">
+  <img src="media/art/court_es_caballo_copas.png" width="145" alt="Caballo de Copas" title="Caballo de Copas">
+  <img src="media/art/court_es_rey_espadas.png" width="145" alt="Rey de Espadas" title="Rey de Espadas">
+  <img src="media/art/court_es_rey_bastos.png" width="145" alt="Rey de Bastos" title="Rey de Bastos">
+</p>
+
+### Jokers
+
+<p>
+  <img src="media/art/joker_c_001_arlequin_carmesi.png" width="132" alt="Arlequín Carmesí" title="Arlequín Carmesí">
+  <img src="media/art/joker_m_091_ruleta_del_destino.png" width="132" alt="Ruleta del Destino" title="Ruleta del Destino">
+  <img src="media/art/joker_r_053_corazon_del_mazo.png" width="132" alt="Corazón del Mazo" title="Corazón del Mazo">
+  <img src="media/art/joker_l_150_reloj_del_juicio_final.png" width="132" alt="Reloj del Juicio Final" title="Reloj del Juicio Final">
+</p>
+
+### Tarots y planetas
+
+<p>
+  <img src="media/art/tarot_03_la_sacerdotisa_velada.png" width="132" alt="La Sacerdotisa Velada" title="La Sacerdotisa Velada">
+  <img src="media/art/tarot_14_la_segadora_silente.png" width="132" alt="La Segadora Silente" title="La Segadora Silente">
+  <img src="media/art/planet_01_cendrila.png" width="132" alt="Cendrila" title="Cendrila">
+  <img src="media/art/planet_05_escalvio.png" width="132" alt="Escalvio" title="Escalvio">
+</p>
+
 ## Descargar y jugar
 
 Versión **v0.1.0**, primera versión pública. Descarga el juego desde [Releases](https://github.com/javieratomic/medianoche/releases/latest). Elige el archivo de tu plataforma, no los archivos automáticos «Source code» de GitHub.
