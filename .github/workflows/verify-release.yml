@@ -6,6 +6,10 @@ on:
         description: Draft release tag to validate
         required: true
         default: v0.1.0
+      linux_only:
+        description: Recheck Linux without repeating a successful Windows job
+        type: boolean
+        default: false
 permissions:
   # Draft releases are visible only to credentials with repository write access.
   contents: write
@@ -30,12 +34,15 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y xvfb libopengl0
           cd artifacts/MEDIANOCHE-SteamOS-x64
+          ./runtime/love.AppImage --appimage-extract >/dev/null
+          find squashfs-root -name '*.so*' -type f -print
           export SDL_AUDIODRIVER=dummy
           export LIBGL_ALWAYS_SOFTWARE=1
           xvfb-run -a ./launch.sh smoke
           xvfb-run -a ./launch.sh test
           xvfb-run -a ./launch.sh render
   windows:
+    if: ${{ !inputs.linux_only }}
     runs-on: windows-2022
     steps:
       - name: Download packages
